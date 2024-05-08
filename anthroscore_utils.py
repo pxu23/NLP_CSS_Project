@@ -24,7 +24,9 @@ def get_human_nonhuman_scores(sentence, human, nonhuman, model, tokenizer, devic
     ########################################
     ########### PART 1 #####################
     ########################################
-    inputs = tokenizer(sentence, return_tensors="pt").to(device)
+
+    # sometimes sentence may get too long for the BERT model, so we need to truncate
+    inputs = tokenizer(sentence, truncate=True, return_tensors="pt").to(device)
 
     with torch.no_grad():
         logits = model(**inputs).logits
